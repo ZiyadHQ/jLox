@@ -1,0 +1,6 @@
+
+/* this is a C-style multi-line comment block
+it should work across new-lines and other special characters until it matches its own compliment tag */
+
+var message = "Hello World";
+print message;

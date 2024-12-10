@@ -2,5 +2,11 @@
 /* this is a C-style multi-line comment block
 it should work across new-lines and other special characters until it matches its own compliment tag */
 
+// this is a normal line comment, it doesn't need the more elaborate approach
+// that the C-style comment block has, comments are ignored during the scanning(Lexical analysis) process.
+
+var number = 10;
 var message = "Hello World";
 print message;
+
+print number - 5;

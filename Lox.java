@@ -44,16 +44,11 @@ public class Lox
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        File outputFile = new File("output.txt");
-        // PrintWriter writer = new PrintWriter("D:/jLox/output.txt", "UTF-8");
-        PrintWriter writer = new PrintWriter(outputFile, "UTF-8");
         for(Token token : tokens)
         {
-            // System.out.println(token);
-            writer.println(token);
+            System.out.println(token);
         }
 
-        writer.close();
     }
 
     static void error(int line, String message)

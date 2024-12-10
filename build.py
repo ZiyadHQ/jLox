@@ -76,6 +76,7 @@ def help():
     print("       py build.py repl : runs in REPL mode")
     print("       py build.py clean : cleans the directories by removing .class and .txt files")
     print("       py build.py test : for testing commands, prints the entire program state to stdout")
+    print("       py build.py build - just builds the project, in reality all commands do that except for clean, build merely exits without errors")
     print("Options must come before commands, Options:")
     print("       -file : instead of printing output to the terminal, print it to an output.txt file")
     print("       -f <filename> : same as -file, but prints to a user specified output file, doesn't work well with \'repl\'")
@@ -99,7 +100,9 @@ target_file = sys.stdout
 # assign the command parameters depending on command length
 if len(sys.argv) == 3:
     option = sys.argv[1]
-    if option == "-f":
+    if option == "-file":
+        target_file = open("output.txt", "w")
+    elif option == "-f":
         print("Error, '-f' needs a specified output file after it!")
         help()
         sys.exit(1)
@@ -121,6 +124,8 @@ elif command == "repl":
     run_lox_repl(output=target_file)
 elif command == "test":
     print(f"command: {command}, option: {option}, target_file: {target_file}")
+elif command == "build":
+    sys.exit(0)
 else:
     print(f"ERROR: the command {command} is invalid")
     help()

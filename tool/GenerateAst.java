@@ -29,7 +29,7 @@ public class GenerateAst {
         // commented since its only used in the book and not in my implementation
         // writer.println("package com.craftinginterpreters.lox");
         // writer.println();
-        writer.println("import Java.util.List;");
+        writer.println("import java.util.List;");
         writer.println();
         writer.println("abstract class " + baseName + "{");
         writer.println();

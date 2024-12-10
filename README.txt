@@ -6,6 +6,4 @@ the details of 'lox', which is the language implemented using jLox are found wit
 
 	https://github.com/munificent/craftinginterpreters
 
-build scripts:
-	run.bat - compiles and runs the base directory's .java files.
-	tool/compile_grammer.bat - compiles the grammar rules into a Expr.java file and puts the result into the base directory of the project.
+use the build.py script to build the project, includes several commands.

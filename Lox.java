@@ -1,8 +1,11 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -36,15 +39,21 @@ public class Lox
         }
     }
 
-    private static void run(String source)
+    private static void run(String source) throws IOException
     {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
+        File outputFile = new File("output.txt");
+        // PrintWriter writer = new PrintWriter("D:/jLox/output.txt", "UTF-8");
+        PrintWriter writer = new PrintWriter(outputFile, "UTF-8");
         for(Token token : tokens)
         {
-            System.out.println(token);
+            // System.out.println(token);
+            writer.println(token);
         }
+
+        writer.close();
     }
 
     static void error(int line, String message)

@@ -23,7 +23,11 @@ def compile_grammar():
 
 def compile_source():
     print("compiling the interpreter source..")
-    run_command(["javac", "*.java"], cwd=BASE_DIR)
+    java_files = glob.glob(os.path.join(BASE_DIR, "*.java"))
+    if not java_files:
+        print("Error: no .java files found")
+        sys.exit(1)
+    run_command(["javac"] + java_files)
 
 def clean_directory():
     print("cleaning the source directory")

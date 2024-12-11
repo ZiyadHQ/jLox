@@ -6,7 +6,7 @@ import sys
 # Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TOOL_DIR = os.path.join(BASE_DIR, "tool")
-OUTPUT_DIR = "D:/jLox/"
+OUTPUT_DIR = ".."
 
 def run_command(commands, cwd=None):
 

@@ -5,5 +5,5 @@ it should work across new-lines and other special characters until it matches it
 // this is a normal line comment, it doesn't need the more elaborate approach
 // that the C-style comment block has, comments are ignored during the scanning(Lexical analysis) process.
 
-(12 + 8 * 9) / (12 / - 2)
-(12 + 8 * 9) / (12 / - 3)
+// (12 + 8 * 9) / (12 / - 2)
+print  (12 + 8 * 9) / (12 / - 3)

@@ -26,7 +26,8 @@ public class Interpreter implements Expr.Visitor<Object> {
                     return (String) left + (String) right;
                 if (left instanceof Double && right instanceof Double)
                     return (Double) left + (Double) right;
-
+                if (left instanceof String || right instanceof String)
+                    return stringify(left) + stringify(right);
                 throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
 
             case GREATER:
@@ -64,6 +65,7 @@ public class Interpreter implements Expr.Visitor<Object> {
     }
 
     private void checkNumberOperands(Token operator, Object left, Object right){
+        if(operator.type == TokenType.SLASH && right instanceof Double && (Double)right == 0) throw new RuntimeError(operator, "Division by zero."); 
         if(left instanceof Double && right instanceof Double) return;
         throw new RuntimeError(operator, "Operands must be a number.");
     }
@@ -84,6 +86,7 @@ public class Interpreter implements Expr.Visitor<Object> {
 
         switch (expr.operator.type) {
             case MINUS:
+                System.out.println("dividing by: " + stringify(right));
                 return -(Double) right;
 
             case BANG:

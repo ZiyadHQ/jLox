@@ -137,4 +137,16 @@ public class Interpreter implements Expr.Visitor<Object> {
         }
     }
 
+    @Override
+    public Object visitExpressionExpr(Expr.Expression expr) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visitExpressionExpr'");
+    }
+
+    @Override
+    public Object visitPrintExpr(Expr.Print expr) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visitPrintExpr'");
+    }
+
 }

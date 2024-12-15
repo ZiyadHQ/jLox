@@ -21,7 +21,7 @@ public class GenerateAst {
             "Unary : Token operator, Expr right"
         ));
 
-        defineAst(outputDir, "Expr", Arrays.asList(
+        defineAst(outputDir, "Stmt", Arrays.asList(
             "Expression : Expr expression",
             "Print : Expr expression"
         ));

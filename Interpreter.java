@@ -1,8 +1,20 @@
+import java.util.List;
 
-public class Interpreter implements Expr.Visitor<Object> {
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object> {
+
+    void interpret(List<Stmt> statements) {
+        try {
+            for(Stmt statement : statements){
+                execute(statement);
+            }
+        } catch (RuntimeError error) {
+            Lox.runtimeError(error);
+        }
+    }
 
     @Override
     public Object visitBinaryExpr(Expr.Binary expr) {
+
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right);
 
@@ -40,33 +52,36 @@ public class Interpreter implements Expr.Visitor<Object> {
 
             case GREATER_EQUAL:
                 checkNumberOperands(expr.operator, left, right);
-                return (Double)left >= (Double)right;
+                return (Double) left >= (Double) right;
 
             case LESS_EQUAL:
                 checkNumberOperands(expr.operator, left, right);
-                return (Double)left <= (Double)right;
-            
+                return (Double) left <= (Double) right;
+
             case BANG_EQUAL:
                 checkNumberOperands(expr.operator, left, right);
                 return !isEqual(left, right);
-            
+
             case EQUAL_EQUAL:
                 checkNumberOperands(expr.operator, left, right);
                 return isEqual(left, right);
-                
+
         }
 
         return null;
     }
 
-    private void checkNumberOperand(Token operator, Object operand){
-        if(operand instanceof Double) return;
+    private void checkNumberOperand(Token operator, Object operand) {
+        if (operand instanceof Double)
+            return;
         throw new RuntimeError(operator, "Operand must be a number.");
     }
 
-    private void checkNumberOperands(Token operator, Object left, Object right){
-        if(operator.type == TokenType.SLASH && right instanceof Double && (Double)right == 0) throw new RuntimeError(operator, "Division by zero."); 
-        if(left instanceof Double && right instanceof Double) return;
+    private void checkNumberOperands(Token operator, Object left, Object right) {
+        if (operator.type == TokenType.SLASH && right instanceof Double && (Double) right == 0)
+            throw new RuntimeError(operator, "Division by zero.");
+        if (left instanceof Double && right instanceof Double)
+            return;
         throw new RuntimeError(operator, "Operands must be a number.");
     }
 
@@ -104,19 +119,22 @@ public class Interpreter implements Expr.Visitor<Object> {
         return true;
     }
 
-    private Boolean isEqual(Object left, Object right){
-        if(left == null && right == null) return true;
-        if(left == null) return false;
+    private Boolean isEqual(Object left, Object right) {
+        if (left == null && right == null)
+            return true;
+        if (left == null)
+            return false;
 
         return left.equals(right);
     }
 
-    private String stringify(Object object){
-        if(object == null) return "nil";
+    private String stringify(Object object) {
+        if (object == null)
+            return "nil";
 
-        if(object instanceof Double){
+        if (object instanceof Double) {
             String text = object.toString();
-            if(text.startsWith(".0")){
+            if (text.startsWith(".0")) {
                 text = text.substring(0, text.length() - 2);
             }
             return text;
@@ -128,25 +146,21 @@ public class Interpreter implements Expr.Visitor<Object> {
         return expr.accept(this);
     }
 
-    void interpret(Expr expression){
-        try {
-            Object value = evaluate(expression);
-            System.out.println(stringify(value));
-        } catch (RuntimeError error) {
-            Lox.runtimeError(error);
-        }
+    private void execute(Stmt stmt){
+        stmt.accept(this);
     }
 
     @Override
-    public Object visitExpressionExpr(Expr.Expression expr) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visitExpressionExpr'");
+    public Void visitExpressionStmt(Stmt.Expression stmt) {
+        Object value = evaluate(stmt.expression);
+        return null;
     }
 
     @Override
-    public Object visitPrintExpr(Expr.Print expr) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visitPrintExpr'");
+    public Void visitPrintStmt(Stmt.Print stmt) {
+        Object value = evaluate(stmt.expression);
+        System.out.println(stringify(value));
+        return null;
     }
 
 }

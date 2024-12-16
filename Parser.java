@@ -15,7 +15,7 @@ public class Parser {
     List<Stmt> parse(){
         List<Stmt> statements = new ArrayList<Stmt>();
         while(!isAtEnd()){
-            statements.add(statement());
+            statements.add(declaration());
         }
         // try {
         //     return expression();
@@ -30,6 +30,17 @@ public class Parser {
         return equality();
     }
 
+    private Stmt declaration(){
+        try {
+            if(match(TokenType.VAR)) return varDeclaration();
+
+            return statement();
+        } catch (ParseError error) {
+            synchronize();
+            return null;
+        }   
+    }
+
     private Stmt statement(){
         if(match(TokenType.PRINT)) return printStatement();
 
@@ -41,6 +52,20 @@ public class Parser {
         
         consume(TokenType.SEMICOLON, "Expect ';' after expression.");
         return new Stmt.Print(value);
+    }
+
+    private Stmt varDeclaration(){
+        Token identifier = consume(TokenType.IDENTIFIER, "Expected variable name after 'var'.");
+
+        Expr expression = null;
+        // check if there is an equal token after the identifier name, if there is one then it means that its both variable definition and assignment, not just definition.
+        // here the assignment is considered an initialization and not just a macro for definition then assignment.
+        if(match(TokenType.EQUAL)){
+            expression = expression();
+        }
+
+        consume(TokenType.SEMICOLON, "Expected ';' after variable declaration");
+        return new Stmt.Var(identifier, expression);
     }
 
     private Stmt expressionStatement(){
@@ -109,6 +134,12 @@ public class Parser {
 
         if(match(TokenType.NUMBER, TokenType.STRING)){
             return new Expr.Literal(previous().literal);
+        }
+
+        // case for identifier names, when an identifier token is found then its turned into a variable invocation expression
+        // implemented by the interpreter.
+        if(match(TokenType.IDENTIFIER)){
+            return new Expr.Variable(previous());
         }
 
         if(match(TokenType.LEFT_PAREN)){

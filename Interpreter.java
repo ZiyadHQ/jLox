@@ -163,4 +163,16 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object> {
         return null;
     }
 
+    @Override
+    public Object visitVarStmt(Stmt.Var stmt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visitVariableStmt'");
+    }
+
+    @Override
+    public Object visitVariableExpr(Expr.Variable expr) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'visitVariableExpr'");
+    }
+
 }

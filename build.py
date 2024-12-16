@@ -81,6 +81,7 @@ def help():
     print("       py build.py clean : cleans the directories by removing .class and .txt files")
     print("       py build.py test : for testing commands, prints the entire program state to stdout")
     print("       py build.py build - just builds the project, in reality all commands do that except for clean, build merely exits without errors")
+    print("       py build.py grammar - only runs the meta-programming file GenerateAst.java to generate new Expr.java and Stmt.java files")
     print("Options must come before commands, Options:")
     print("       -file : instead of printing output to the terminal, print it to an output.txt file")
     print("       -f <filename> : same as -file, but prints to a user specified output file, doesn't work well with \'repl\'")
@@ -95,6 +96,9 @@ command = sys.argv[len(sys.argv) - 1]
 
 if command == "clean":
     clean_directories()
+    sys.exit(0)
+elif command == "grammar":
+    compile_grammar()
     sys.exit(0)
 
 # variables to determine behavior

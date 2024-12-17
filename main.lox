@@ -2,6 +2,19 @@
 /* this is a C-style multi-line comment block
 it should work across new-lines and other special characters until it matches its own compliment tag */
 
+/*
+    you can have multiple C-style comment blocks inside of eachother
+    /*
+        level 1
+        /*
+            level 2
+            /*
+                level 3
+            */
+        */
+    */
+*/
+
 // this is a normal line comment, it doesn't need the more elaborate approach
 // that the C-style comment block has, comments are ignored during the scanning(Lexical analysis) process.
 
@@ -9,8 +22,18 @@ print 12 / 2;
 print "hello";
 print true;
 
-var a = 100;
-var b = 200;
-var c = "The sum of: ";
+var a = "the original a";
+var b = "b";
 
-print c + a + ", " + b + " = " + (a + b);
+print a;
+print b;
+
+{
+    var a = "not the original a";
+    b = "the original b";
+    print a;
+    print b;
+}
+
+print a;
+print b;

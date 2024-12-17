@@ -141,6 +141,7 @@ public class Parser {
         if(match(TokenType.BANG, TokenType.MINUS)){
             Token operator = previous();
             Expr right = unary();
+            System.out.println("Unary Expr: token:" + operator.lexeme + ", right: " + right);
             return new Expr.Unary(operator, right);
         }
 

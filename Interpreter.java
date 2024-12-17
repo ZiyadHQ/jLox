@@ -210,8 +210,36 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitIfStmt(Stmt.If stmt) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visitIfStmt'");
+        if(isTruthy(evaluate(stmt.expression))){
+            execute(stmt.thenBranch);
+        }else if(stmt.thenBranch != null){
+            execute(stmt.thenBranch);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Object visitLogicalExpr(Expr.Logical expr) {
+        Boolean leftValue = isTruthy(evaluate(expr.left));
+
+        if(expr.operator.type == TokenType.AND){
+            if(leftValue == false) return leftValue;
+        }else if(expr.operator.type == TokenType.OR){
+            if(leftValue == true) return leftValue;
+        }
+        
+        return isTruthy(evaluate(expr.right));
+    }
+
+    @Override
+    public Void visitWhileStmt(Stmt.While stmt) {
+        System.out.println("while loop statement: " + evaluate(stmt.condition) + "  -  " + stmt.body);
+        while(isTruthy(evaluate(stmt.condition))){
+            execute(stmt.body);
+        }
+
+        return null;
     }
 
 }

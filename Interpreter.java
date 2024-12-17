@@ -1,6 +1,8 @@
 import java.util.List;
 
-public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object> {
+public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+
+    private Environment environment = new Environment();
 
     void interpret(List<Stmt> statements) {
         try {
@@ -111,6 +113,12 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object> {
         return null;
     }
 
+    @Override
+    public Object visitVariableExpr(Expr.Variable expr) {
+        Object value = environment.get(expr.name);
+        return value;
+    }
+
     private Boolean isTruthy(Object object) {
         if (object == null)
             return false;
@@ -164,15 +172,15 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Object> {
     }
 
     @Override
-    public Object visitVarStmt(Stmt.Var stmt) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visitVariableStmt'");
-    }
+    public Void visitVarStmt(Stmt.Var stmt) {
+        Object value = null;
 
-    @Override
-    public Object visitVariableExpr(Expr.Variable expr) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visitVariableExpr'");
+        if(stmt.initializer != null){
+            value = evaluate(stmt.initializer);
+        }
+
+        environment.define(stmt.name.lexeme, value);
+        return null;
     }
 
 }

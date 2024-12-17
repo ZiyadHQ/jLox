@@ -65,7 +65,9 @@ public class Parser {
         }
 
         consume(TokenType.SEMICOLON, "Expected ';' after variable declaration");
-        return new Stmt.Var(identifier, expression);
+        Stmt stmt = new Stmt.Var(identifier, expression);
+        // return new Stmt.Var(identifier, expression);
+        return stmt;
     }
 
     private Stmt expressionStatement(){

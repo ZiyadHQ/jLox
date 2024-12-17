@@ -8,3 +8,9 @@ it should work across new-lines and other special characters until it matches it
 print 12 / 2;
 print "hello";
 print true;
+
+var a = 100;
+var b = 200;
+var c = "The sum of: ";
+
+print c + a + ", " + b + " = " + (a + b);

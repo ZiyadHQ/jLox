@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Parser {
@@ -46,8 +47,42 @@ public class Parser {
         if(match(TokenType.LEFT_BRACE)) return new Stmt.Block(block());
         if(match(TokenType.IF)) return ifStatement();
         if(match(TokenType.WHILE)) return whileStatement();
+        if(match(TokenType.FOR)) return forStatement();
 
         return expressionStatement();
+    }
+
+    private Stmt forStatement(){
+        consume(TokenType.LEFT_PAREN, "Error, expected '(' after 'for'.");
+        Stmt initializer = null;
+        if(match(TokenType.SEMICOLON)){
+            initializer = null;
+        }else if(match(TokenType.VAR)){
+            initializer = varDeclaration();
+        }else{
+            initializer = expressionStatement();
+        }
+
+        Expr condition = null;
+        if(!check(TokenType.SEMICOLON)){
+            condition = expression();
+        }
+        consume(TokenType.SEMICOLON, "Expected ';' after loop condition.");
+
+        Expr incrementer = null;
+        if(!check(TokenType.RIGHT_PAREN)){
+            incrementer = expression();
+        }
+        consume(TokenType.SEMICOLON, "Expected ')' after clauses.");
+
+        Stmt body = statement();
+
+        if(incrementer != null){
+            body = new Stmt.Block(Arrays.asList(body,
+            new Stmt.Expression(incrementer)));
+        }
+
+        return body;
     }
 
     private Stmt ifStatement(){

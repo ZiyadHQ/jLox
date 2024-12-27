@@ -52,8 +52,11 @@ public class Parser {
         return expressionStatement();
     }
 
+    // Despite the name of the function, it actually implements a while loop, its simply a 'Desugaring' technique for
+    // improving the language syntax without actually making any large changes to the backend.
     private Stmt forStatement(){
         consume(TokenType.LEFT_PAREN, "Error, expected '(' after 'for'.");
+        
         Stmt initializer = null;
         if(match(TokenType.SEMICOLON)){
             initializer = null;
@@ -73,13 +76,25 @@ public class Parser {
         if(!check(TokenType.RIGHT_PAREN)){
             incrementer = expression();
         }
-        consume(TokenType.SEMICOLON, "Expected ')' after clauses.");
+        consume(TokenType.RIGHT_PAREN, "Expected ')' after clauses.");
 
         Stmt body = statement();
 
+        // We check if an incrementer exists, if so then we add it to the end of the block, since incrementers are executed AFTER the
+        // body code.
         if(incrementer != null){
             body = new Stmt.Block(Arrays.asList(body,
             new Stmt.Expression(incrementer)));
+        }
+
+        // if a condition exists, then simply add it to the while loop definition, else make it a while loop with condition 'while(true)'
+        if(condition == null){
+            condition = new Expr.Literal(true);
+        }
+        body = new Stmt.While(condition, body);
+
+        if(initializer != null){
+            body = new Stmt.Block(Arrays.asList(initializer, body));
         }
 
         return body;

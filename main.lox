@@ -48,3 +48,9 @@ while(counter < 10){
 }
 
 print "finished loop";
+
+for(var L = 0; L < 5; L = L + 1){
+    print L;
+}
+
+print "finished for loop";

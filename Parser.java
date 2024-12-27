@@ -34,7 +34,7 @@ public class Parser {
     private Stmt declaration(){
         try {
             if(match(TokenType.VAR)) return varDeclaration();
-
+            if(match(TokenType.FUN)) return function("function");
             return statement();
         } catch (ParseError error) {
             synchronize();
@@ -154,6 +154,29 @@ public class Parser {
         return new Stmt.Expression(expr);
     }
 
+    private Stmt.Function function(String kind){
+        Token name = consume(TokenType.IDENTIFIER, "Expected " + kind + " name.");
+
+        consume(TokenType.LEFT_PAREN, "Expected '(' after " + kind + " name.");
+        List<Token> parameters = new ArrayList<>();
+        if(!check(TokenType.RIGHT_PAREN)){
+            do {
+                if(parameters.size() >= 255){
+                    error(peek(), "Can't have more than 255 parameters.");
+                }
+                parameters.add(consume(TokenType.IDENTIFIER, "Expected parameter name."));
+            } while (match(TokenType.COMMA));
+        }
+        consume(TokenType.RIGHT_PAREN, "Expected ')' after " + kind + " parameters.");
+
+        consume(TokenType.LEFT_BRACE, "Expected '{' before " + kind + "body.");
+        List<Stmt> body = block();
+        
+        // No need to consume right brace since block() does it already.
+
+        return new Stmt.Function(name, parameters, body);
+    }
+
     private List<Stmt> block(){
         List<Stmt> statements = new ArrayList<>();
 
@@ -258,7 +281,38 @@ public class Parser {
             return new Expr.Unary(operator, right);
         }
 
-        return primary();
+        return call();
+    }
+
+    private Expr call(){
+        Expr expr = primary();
+
+        while(true){
+            if(match(TokenType.LEFT_PAREN)){
+                expr = finishCall(expr);
+            }else{
+                break;
+            }
+        }
+
+        return expr;
+    }
+
+    private Expr finishCall(Expr callee){
+        List<Expr> arguments = new ArrayList<Expr>();
+
+        if(!match(TokenType.RIGHT_PAREN)){
+            do{
+                if(arguments.size() >= 255){
+                    error(peek(), "Error, can't have more than 255 arguements in a function call.");
+                }
+                arguments.add(expression());
+            }while(match(TokenType.COMMA));
+        }
+
+        Token paren = consume(TokenType.COMMA, "Expected ')' after arguments.");
+
+        return new Expr.Call(callee, paren, arguments);
     }
 
     private Expr primary(){

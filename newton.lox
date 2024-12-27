@@ -1,0 +1,18 @@
+
+var a = 0;
+var temp;
+
+for(var b = 1; a < 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999; b = temp + b){
+    temp = a;
+    a = b;
+}
+
+// the number 'x' for which 'g' will be calculated
+var x = a;
+
+var g = x/2;
+for(;g*g - x > 0.00000000001;){
+    g = (g + x / g) / 2;
+}
+
+print g;

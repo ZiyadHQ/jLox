@@ -120,7 +120,7 @@ public class Parser {
         Stmt thenBranch = statement();
 
         Stmt elseBranch = null;
-        if(check(TokenType.ELSE)){
+        if(match(TokenType.ELSE)){
             elseBranch = statement();
         }
 
@@ -289,7 +289,7 @@ public class Parser {
         if(match(TokenType.BANG, TokenType.MINUS)){
             Token operator = previous();
             Expr right = unary();
-            System.out.println("Unary Expr: token:" + operator.lexeme + ", right: " + right);
+            // System.out.println("Unary Expr: token:" + operator.lexeme + ", right: " + right);
             return new Expr.Unary(operator, right);
         }
 
@@ -347,10 +347,8 @@ public class Parser {
             consume(TokenType.RIGHT_PAREN, "Expect ')' after expression");
             return new Expr.Grouping(expr);
         }
-        else{
-            // Do something
-            System.out.println("say somehing!, " + peek() + " - " + previous());
-        }
+
+        // System.out.println("say somehing!, " + peek() + " - " + previous());
 
         throw error(peek(), "Expect expression.");
     }

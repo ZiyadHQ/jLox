@@ -1,10 +1,7 @@
 
-if(true){
-    print "then";
-}else {
-    print "else";
+fun count(n){
+    if(n > 1) count(n - 1);
+    print n;
 }
 
-
-
-sum(10, 0);
+count(4);

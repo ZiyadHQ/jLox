@@ -1,15 +1,19 @@
 
 fun count(n){
-    if(n == 100){
+    if(n > 1){
         count(n - 1);
     }
     print n;
 }
 
-count(100);
-
-if(false){
-    print "ERROREORAEOREAO";
-}else {
-    print "else";
+fun summation(n, sum){
+    if(n == 0){
+        print sum;
+    }else {
+        summation(n - 1, sum + n);
+    }
 }
+
+summation(10, 0);
+
+clock();

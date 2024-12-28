@@ -12,7 +12,10 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             public int arity(){return 0;}
 
             @Override
-            public Object call(Interpreter interpreter, List<Object> arguments){return (double)System.currentTimeMillis() / 1000.0;};
+            public Object call(Interpreter interpreter, List<Object> arguments){
+                var time = (double)System.currentTimeMillis() / 1000.0;
+                return time;
+            };
 
             @Override
             public String toString(){

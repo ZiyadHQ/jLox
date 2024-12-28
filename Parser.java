@@ -313,7 +313,7 @@ public class Parser {
     private Expr finishCall(Expr callee){
         List<Expr> arguments = new ArrayList<Expr>();
 
-        if(!match(TokenType.RIGHT_PAREN)){
+        if(!check(TokenType.RIGHT_PAREN)){
             do{
                 if(arguments.size() >= 255){
                     error(peek(), "Error, can't have more than 255 arguements in a function call.");

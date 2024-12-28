@@ -120,7 +120,6 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         switch (expr.operator.type) {
             case MINUS:
-                System.out.println("dividing by: " + stringify(right));
                 return -(Double) right;
 
             case BANG:
@@ -137,6 +136,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     private Boolean isTruthy(Object object) {
+        
         if (object == null)
             return false;
         if (object instanceof Boolean)
@@ -229,8 +229,8 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Void visitIfStmt(Stmt.If stmt) {
         if(isTruthy(evaluate(stmt.expression))){
             execute(stmt.thenBranch);
-        }else if(stmt.thenBranch != null){
-            execute(stmt.thenBranch);
+        }else if(stmt.elseBranch != null){
+            execute(stmt.elseBranch);
         }
 
         return null;
@@ -251,7 +251,6 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitWhileStmt(Stmt.While stmt) {
-        System.out.println("while loop statement: " + evaluate(stmt.condition) + "  -  " + stmt.body);
         while(isTruthy(evaluate(stmt.condition))){
             execute(stmt.body);
         }
@@ -285,7 +284,7 @@ public class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Void visitFunctionStmt(Stmt.Function stmt) {
         LoxFunction function = new LoxFunction(stmt);
         environment.define(stmt.name.lexeme, function);
-        
+
         return null;
     }
 

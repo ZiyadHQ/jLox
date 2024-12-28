@@ -27,5 +27,4 @@ public class LoxFunction implements LoxCallable{
     public String toString(){
         return "<fn " + declaration.name.lexeme + ">";
     }
-    
 }

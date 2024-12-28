@@ -6,7 +6,7 @@
         "name": "Debug Java File",
         "request": "launch",
         "mainClass": "Lox",
-        "args": "fib.lox"
+        "args": "fib.lox > debug_output.txt"
     }
     ]
 }

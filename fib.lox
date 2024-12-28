@@ -1,7 +1,15 @@
 
 fun count(n){
-    if(n > 1) count(n - 1);
+    if(n == 100){
+        count(n - 1);
+    }
     print n;
 }
 
-count(4);
+count(100);
+
+if(false){
+    print "ERROREORAEOREAO";
+}else {
+    print "else";
+}

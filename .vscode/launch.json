@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+        "type": "java",
+        "name": "Debug Java File",
+        "request": "launch",
+        "mainClass": "Lox",
+        "args": "fib.lox"
+    }
+    ]
+}

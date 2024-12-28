@@ -1,8 +1,20 @@
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Parser {
+
+    public static String serializeObject(Object obj) throws IllegalAccessException {
+        StringBuilder result = new StringBuilder("{");
+        for (Field field : obj.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            result.append("\"").append(field.getName()).append("\":\"").append(field.get(obj)).append("\",");
+        }
+        if (result.length() > 1) result.deleteCharAt(result.length() - 1); // Remove trailing comma
+        result.append("}");
+        return result.toString();
+    }
 
     private static class ParseError extends RuntimeException{}
 
@@ -310,7 +322,7 @@ public class Parser {
             }while(match(TokenType.COMMA));
         }
 
-        Token paren = consume(TokenType.COMMA, "Expected ')' after arguments.");
+        Token paren = consume(TokenType.RIGHT_PAREN, "Expected ')' after arguments.");
 
         return new Expr.Call(callee, paren, arguments);
     }
@@ -334,6 +346,10 @@ public class Parser {
             Expr expr = expression();
             consume(TokenType.RIGHT_PAREN, "Expect ')' after expression");
             return new Expr.Grouping(expr);
+        }
+        else{
+            // Do something
+            System.out.println("say somehing!, " + peek() + " - " + previous());
         }
 
         throw error(peek(), "Expect expression.");

@@ -1,10 +1,10 @@
 
-var a = 0;
-var temp;
-
-for(var b = 1; a < 12586269025; b = temp + b){
-    temp = a;
-    a = b;
+if(true){
+    print "then";
+}else {
+    print "else";
 }
 
-print a;
+
+
+sum(10, 0);

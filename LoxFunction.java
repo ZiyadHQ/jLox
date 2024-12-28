@@ -9,8 +9,7 @@ public class LoxFunction implements LoxCallable{
 
     @Override
     public int arity() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'arity'");
+        return declaration.params.size();
     }
 
     @Override
@@ -22,6 +21,11 @@ public class LoxFunction implements LoxCallable{
 
         interpreter.executeBlock(declaration.body, environment);
         return null;
+    }
+
+    @Override
+    public String toString(){
+        return "<fn " + declaration.name.lexeme + ">";
     }
     
 }

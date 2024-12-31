@@ -1,7 +1,32 @@
 
-fun fib(n){
-    if(n <= 1) return n;
-    return fib(n - 1) + fib(n - 2);
+
+fun makeCount(){
+    var a = 1;
+    var b = 20;
+    var c = 300;
+
+    fun counter(variable){
+        if(variable == 1){
+            a = a + 1;
+            return a;
+        }else if(variable == 2){
+            b = b + 1;
+            return b;
+        }else if(variable == 3){
+            c = c + 1;
+            return c;
+        }else{
+            print("index out of bounds");
+        }
+    }
+
+    return counter;
 }
 
-print readTextFile("main.lox");
+var a_counter = makeCount();
+var b_counter = makeCount();
+var c_counter = makeCount();
+
+print(a_counter(1));
+print(b_counter(2));
+print(c_counter(3));

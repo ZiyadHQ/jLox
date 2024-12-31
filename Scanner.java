@@ -162,7 +162,7 @@ public class Scanner {
     {
         return c >= 'a' && c <= 'z' ||
             c >= 'A' && c <= 'Z' ||
-            c >= '_';
+            c == '_';
     }
 
     private boolean isAlphaNumeric(char c)

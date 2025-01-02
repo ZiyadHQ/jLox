@@ -5,4 +5,19 @@ fun fib(a){
     return fib(a - 1) + fib(a - 2);
 }
 
-print(10);
+class Cream {
+    serve(){
+        return "food";
+    }
+}
+
+var instance = Cream();
+
+var start = clock();
+print(fib(10));
+var end = clock();
+
+print(end - start);
+
+print Cream;
+print instance;
